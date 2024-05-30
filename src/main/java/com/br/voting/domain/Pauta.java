@@ -20,7 +20,8 @@ public class Pauta implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_pauta")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPauta;
 
     @Column(name = "pauta")

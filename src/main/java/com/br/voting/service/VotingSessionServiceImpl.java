@@ -26,12 +26,12 @@ public class VotingSessionServiceImpl implements VotingSessionService {
     @Override
     public VotingSessionResponse openSession(Integer idPauta, VotingSessionRequest votingSessionRequest) {
         Pauta pauta = pautaService.findPauta(idPauta);
+        VotingSession votingSession = votingSessionMapper.toVotingSession(votingSessionRequest);
 
         if (votingSessionRepository.findByPauta(pauta).isPresent()) {
-            throw new BusinessException("Voting session already exists!");
+            throw new BusinessException("Voting session already exists for this Pauta!");
         }
 
-        VotingSession votingSession = votingSessionMapper.toVotingSession(votingSessionRequest);
         votingSession.setOpenSession(LocalDateTime.now());
         votingSession.setPauta(pauta);
 
@@ -48,6 +48,11 @@ public class VotingSessionServiceImpl implements VotingSessionService {
         log.info("Session created successfully! idVotingSession {},  Date Open Session: {}", votingSession.getIdVotingSession(), votingSession.getOpenSession());
 
         return votingSessionMapper.toVotingSessionResponse(votingSession);
+    }
+
+    public VotingSession getVotingSession(Pauta pauta) {
+        return votingSessionRepository.findByPauta(pauta)
+                .orElseThrow(() -> new BusinessException("Session and Pauta not found!"));
     }
 
 

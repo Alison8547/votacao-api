@@ -22,7 +22,8 @@ public class VotingSession implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_voting_session")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idVotingSession;
 
     @Column(name = "open_session")
