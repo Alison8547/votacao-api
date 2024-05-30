@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -24,5 +25,8 @@ public class Pauta implements Serializable {
 
     @Column(name = "pauta")
     private String pauta;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
 
 }
