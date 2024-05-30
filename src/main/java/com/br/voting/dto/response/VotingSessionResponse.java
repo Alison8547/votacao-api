@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class VotingSessionResponse {
 
     private Integer idVotingSession;
-    private LocalDateTime openSession;
     private LocalDateTime closeSession;
     private Pauta pautaVoting;
 

@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.br.CPF;
 public class VoteRequest {
 
     @NotBlank
-    @CPF(message = "Cpf inválido para votar!")
+    @CPF(message = "Invalid CPF to vote!")
     private String cpfAssociate;
 
     @NotNull
