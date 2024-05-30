@@ -2,6 +2,7 @@ package com.br.voting.controller;
 
 import com.br.voting.dto.request.VoteRequest;
 import com.br.voting.dto.response.ResultVotingResponse;
+import com.br.voting.dto.response.ValidCpfResponse;
 import com.br.voting.dto.response.VoteResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -17,4 +18,7 @@ public interface VoteController {
 
     @GetMapping("/result/{idPauta}")
     ResponseEntity<ResultVotingResponse> resultVoting(@PathVariable(name = "idPauta") Integer idPauta);
+
+    @GetMapping("/users/{cpf}")
+    ResponseEntity<ValidCpfResponse> validCpf(@PathVariable(name = "cpf") String cpf);
 }

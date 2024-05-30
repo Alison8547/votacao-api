@@ -22,3 +22,8 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+application:
+  client:
+    inver-texto-api:
+      url: https://api.invertexto.com/v1/validator

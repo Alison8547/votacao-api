@@ -4,10 +4,14 @@ import com.br.voting.domain.Pauta;
 import com.br.voting.domain.Vote;
 import com.br.voting.domain.VotingSession;
 import com.br.voting.domain.enums.MessageVote;
+import com.br.voting.domain.enums.Status;
 import com.br.voting.dto.request.VoteRequest;
 import com.br.voting.dto.response.ResultVotingResponse;
+import com.br.voting.dto.response.ValidCpfResponse;
+import com.br.voting.dto.response.ValidResponse;
 import com.br.voting.dto.response.VoteResponse;
 import com.br.voting.exception.BusinessException;
+import com.br.voting.infrastructure.client.invertexto.InverTextoApiClient;
 import com.br.voting.mapper.VoteMapper;
 import com.br.voting.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,9 @@ public class VoteServiceImpl implements VoteService {
     private final VoteMapper voteMapper;
     private final PautaServiceImpl pautaService;
     private final VotingSessionServiceImpl votingSessionService;
+    private final InverTextoApiClient inverTextoApiClient;
+    private final static String TOKEN_ACCESS = "7958|c9xWcEiBQl9ijubo9WhN5CrgW3PFvuyd";
+    private final static String TYPE_CPF = "cpf";
 
 
     @Override
@@ -74,5 +81,21 @@ public class VoteServiceImpl implements VoteService {
                 .voteYes(countYes)
                 .voteNo(countNo)
                 .build();
+    }
+
+    @Override
+    public ValidResponse validCpf(String cpf) {
+        return inverTextoApiClient.validCpf(TOKEN_ACCESS, cpf, TYPE_CPF);
+    }
+
+
+    @Override
+    public ValidCpfResponse status(String cpf) {
+        ValidResponse validResponse = validCpf(cpf);
+        if (validResponse.isValid()) {
+            return ValidCpfResponse.builder().status(Status.ABLE_TO_VOTE).build();
+        } else {
+            return ValidCpfResponse.builder().status(Status.UNABLE_TO_VOTE).build();
+        }
     }
 }
