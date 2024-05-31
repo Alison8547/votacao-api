@@ -1,5 +1,6 @@
 package com.br.voting.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class Pauta implements Serializable {
     @Column(name = "pauta")
     private String pauta;
 
+    @JsonIgnore
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 

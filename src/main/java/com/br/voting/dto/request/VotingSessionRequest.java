@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class VotingSessionRequest {
 
-    @Schema(description = "Data do fechamento da sessão")
+    @Schema(example = "2024-05-31T15:30:00", type = "string", description = "Data do fechamento da sessão")
     private LocalDateTime closeSession;
 }

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @Slf4j
@@ -32,15 +33,15 @@ public class VotingSessionServiceImpl implements VotingSessionService {
             throw new BusinessException("Voting session already exists for this Pauta!");
         }
 
-        votingSession.setOpenSession(LocalDateTime.now());
+        votingSession.setOpenSession(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         votingSession.setPauta(pauta);
 
         if (votingSession.getCloseSession() == null) {
-            votingSession.setCloseSession(LocalDateTime.now().plusSeconds(DEFAULT_TIME_VOTING));
+            votingSession.setCloseSession(LocalDateTime.now().plusSeconds(DEFAULT_TIME_VOTING).truncatedTo(ChronoUnit.SECONDS));
             log.info("Default time in session has been activated! Date Closed Session: {}", votingSession.getCloseSession());
         }
 
-        if (votingSession.getCloseSession().isBefore(LocalDateTime.now())) {
+        if (votingSession.getCloseSession().isBefore(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))) {
             throw new BusinessException("Closing date cannot be before the Session opening date!");
         }
 

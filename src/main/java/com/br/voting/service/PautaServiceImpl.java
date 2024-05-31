@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @Slf4j
@@ -20,10 +21,11 @@ public class PautaServiceImpl implements PautaService {
     private final PautaRepository pautaRepository;
     private final PautaMapper pautaMapper;
 
+
     @Override
     public PautaResponse createPauta(PautaRequest pautaRequest) {
         Pauta pauta = pautaMapper.toPauta(pautaRequest);
-        pauta.setCreatedDate(LocalDateTime.now());
+        pauta.setCreatedDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
         pautaRepository.save(pauta);
         log.info("Pauta created successfully! -> Id {}, {}, Created Date: {}", pauta.getIdPauta(), pauta.getPauta(), pauta.getCreatedDate());

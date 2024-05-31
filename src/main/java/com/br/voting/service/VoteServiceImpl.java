@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Service
@@ -40,7 +41,7 @@ public class VoteServiceImpl implements VoteService {
         VotingSession votingSession = votingSessionService.getVotingSession(pautaService.findPauta(idPauta));
         Vote vote = voteMapper.toVote(voteRequest);
 
-        if (LocalDateTime.now().isAfter(votingSession.getCloseSession())) {
+        if (LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).isAfter(votingSession.getCloseSession())) {
             throw new BusinessException("Voting session closed!");
         }
 
@@ -52,7 +53,7 @@ public class VoteServiceImpl implements VoteService {
             throw new BusinessException("Incorrect value entered! Vote Sim or Não");
         }
         vote.setVotingSession(votingSession);
-        vote.setDateVote(LocalDateTime.now());
+        vote.setDateVote(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
         if (voteRepository.existsByVotingSessionAndCpfAssociate(votingSession, voteRequest.getCpfAssociate())) {
             throw new BusinessException("CPF Associate has already registered to vote on this Pauta!");
@@ -69,7 +70,7 @@ public class VoteServiceImpl implements VoteService {
         Pauta pauta = pautaService.findPauta(idPauta);
         Set<Vote> votes = votingSessionService.getVotingSession(pauta).getVotes();
 
-        if (LocalDateTime.now().isBefore(votingSessionService.getVotingSession(pauta).getCloseSession())) {
+        if (LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).isBefore(votingSessionService.getVotingSession(pauta).getCloseSession())) {
             throw new BusinessException("Session is still open! it is not possible to see or send the voting results");
         }
 
