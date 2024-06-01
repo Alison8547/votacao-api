@@ -87,7 +87,7 @@ public class VotingSessionServiceImplTest {
     }
 
     @Test(expected = BusinessException.class)
-    public void testMustCreateVotingSessioBeforeTimeDataOpenError() {
+    public void testMustCreateVotingSessionBeforeTimeDataOpenError() {
         //(SETUP)
         when(pautaService.findPauta(anyInt())).thenReturn(PautaBuilder.newPautaEntityNoSession());
         when(votingSessionMapper.toVotingSession(any())).thenReturn(VotingSessionBuilder.newVotingSessionEntityBeforeDataOpen());

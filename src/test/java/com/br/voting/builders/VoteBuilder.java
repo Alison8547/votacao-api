@@ -19,7 +19,7 @@ public class VoteBuilder {
     }
 
 
-    public static VoteRequest newVoteRequest() {
+    public static VoteRequest newVoteYesRequest() {
         return VoteRequest.builder()
                 .cpfAssociate("943.657.200-07")
                 .messageVote("Sim")
