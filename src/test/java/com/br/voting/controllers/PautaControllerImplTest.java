@@ -48,7 +48,7 @@ public class PautaControllerImplTest {
                         .content(objectMapper.writeValueAsString(PautaBuilder.newPautaRequest())))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.idPauta").value("1"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.idPauta").value(PautaBuilder.newPautaResponse().getIdPauta()));
 
         assertNotNull(resultActions.andReturn().getResponse().getContentAsString());
     }

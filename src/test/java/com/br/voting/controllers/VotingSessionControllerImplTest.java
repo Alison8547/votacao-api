@@ -46,7 +46,7 @@ public class VotingSessionControllerImplTest {
                         .content(objectMapper.writeValueAsString(VotingSessionBuilder.newVotingSessionRequest())))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.idVotingSession").value(2));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.idVotingSession").value(VotingSessionBuilder.newVotingSessionResponse().getIdVotingSession()));
 
 
         assertNotNull(resultActions.andReturn().getResponse().getContentAsString());
