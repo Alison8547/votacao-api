@@ -2,6 +2,7 @@ package com.br.voting.controllers;
 
 import com.br.voting.builders.VotingSessionBuilder;
 import com.br.voting.controller.VotingSessionControllerImpl;
+import com.br.voting.exception.BusinessException;
 import com.br.voting.service.VotingSessionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -50,6 +51,19 @@ public class VotingSessionControllerImplTest {
 
 
         assertNotNull(resultActions.andReturn().getResponse().getContentAsString());
+    }
+
+    @Test
+    public void testMustCreateVotingSessionEndPointPautaNotFound() throws Exception {
+        when(votingSessionService.openSession(anyInt(), any())).thenThrow(new BusinessException("Pauta not found!"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/voting-session/create/{idPauta}", 32)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(VotingSessionBuilder.newVotingSessionRequest())))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
     }
 
 

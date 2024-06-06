@@ -6,7 +6,6 @@ import com.br.voting.domain.enums.Status;
 import com.br.voting.dto.request.VoteRequest;
 import com.br.voting.dto.response.ResultVotingResponse;
 import com.br.voting.dto.response.ValidCpfResponse;
-import com.br.voting.dto.response.ValidResponse;
 import com.br.voting.dto.response.VoteResponse;
 
 import java.time.LocalDateTime;
@@ -70,6 +69,12 @@ public class VoteBuilder {
     public static ValidCpfResponse newValidCpfResponse() {
         return ValidCpfResponse.builder()
                 .status(Status.ABLE_TO_VOTE)
+                .build();
+    }
+
+    public static ValidCpfResponse newInvalidCpfResponse() {
+        return ValidCpfResponse.builder()
+                .status(Status.UNABLE_TO_VOTE)
                 .build();
     }
 }

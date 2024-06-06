@@ -80,5 +80,20 @@ public class VoteControllerImplTest {
 
     }
 
+    @Test
+    public void testMustValidCpfEndPointExternalWithCpfInvalid() throws Exception {
+        when(voteService.status(any())).thenReturn(VoteBuilder.newInvalidCpfResponse());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/vote/users/{cpf}", "657.546.560-90")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(VoteBuilder.newInvalidCpfResponse())))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("UNABLE_TO_VOTE"));
+
+
+    }
+
 
 }
